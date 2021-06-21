@@ -58,12 +58,4 @@ openAPI:
       x-k8s-cli:
         setter:
           name: management-namespace
-          value: config-control
-    io.k8s.cli.substitutions.project-namespace:
-      x-k8s-cli:
-        substitution:
-          name: project-namespace
-          pattern: ${PROJECT_ID}
-          values:
-          - marker: ${PROJECT_ID}
-            ref: '#/definitions/io.k8s.cli.setters.project-id'
+          value: config-controller
