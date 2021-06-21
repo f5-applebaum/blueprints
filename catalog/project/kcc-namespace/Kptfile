@@ -2,7 +2,8 @@ apiVersion: kpt.dev/v1alpha1
 kind: Kptfile
 metadata:
   name: kcc-namespace
-  description: Kubernetes namespace configured for use with Config Connector
+packageMetadata:
+  shortDescription: Kubernetes namespace configured for use with Config Connector
 openAPI:
   definitions:
     io.k8s.cli.setters.project-id:
