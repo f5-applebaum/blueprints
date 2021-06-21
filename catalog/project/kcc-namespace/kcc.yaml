@@ -1,0 +1,35 @@
+# Enable KCC for this namespace
+apiVersion: core.cnrm.cloud.google.com/v1beta1
+kind: ConfigConnectorContext
+metadata:
+  name: configconnectorcontext.core.cnrm.cloud.google.com
+  namespace: project-id # {"$kpt-set":"project-namespace"}
+spec:
+  googleServiceAccount: kcc-project-id@management-project-id.iam.gserviceaccount.com # {"$kpt-set":"project-id-sa-email"}
+---
+# Create GCP ServiceAccount for use by KCC to manage resources in this project
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: kcc-project-id # {"$kpt-set":"project-id-sa"}
+  namespace: config-control # {"$kpt-set":"management-namespace"}
+  annotations:
+    cnrm.cloud.google.com/project-id: management-project-id # {"$kpt-set":"management-project-id"}
+spec:
+  displayName: kcc-project-id # {"$kpt-set":"project-id-sa"}
+---
+# Allow KCC's Kubernetes Service Account to use the GCP ServiceAccount
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: project-id-sa-workload-identity-binding # {"$kpt-set":"workload-identity-binding"}
+  namespace: config-control # {"$kpt-set":"management-namespace"}
+  annotations:
+    cnrm.cloud.google.com/project-id: management-project-id # {"$kpt-set":"management-project-id"}
+spec:
+  member: serviceAccount:management-project-id.svc.id.goog[cnrm-system/cnrm-controller-manager-project-id] # {"$kpt-set":"workload-identity-sa"}
+  role: roles/iam.workloadIdentityUser
+  resourceRef:
+    apiVersion: iam.cnrm.cloud.google.com/v1beta1
+    kind: IAMServiceAccount
+    name: kcc-project-id # {"$kpt-set":"project-id-sa"}
