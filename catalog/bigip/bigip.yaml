@@ -1,12 +1,14 @@
 apiVersion: compute.cnrm.cloud.google.com/v1beta1
 kind: ComputeInstance
 metadata:
-  annotations:
-    cnrm.cloud.google.com/allow-stopping-for-update: "true"
   name: blueprints-project-bigip-instance # {"$ref":"#/definitions/io.k8s.cli.substitutions.bigip-name"}
+  namespace: config-control # {"$kpt-set":"namespace"}
   labels:
     created-from: "image"
     network-type: "subnetwork"
+  annotations:
+    cnrm.cloud.google.com/allow-stopping-for-update: "true"
+    cnrm.cloud.google.com/project-id: myproject # kpt-set: ${project-id}
 spec:
   machineType: n1-standard-4
   zone: us-west1-a
@@ -18,12 +20,11 @@ spec:
         external: projects/f5-7626-networks-public/global/images/f5-bigip-16-0-1-1-0-0-6-payg-best-25mbps-210129040615
   networkInterface:
     - subnetworkRef:
-        name: cf-network-management-subnet-us-west1
-      # aliasIpRange:
-      #   - ipCidrRange: /24
-      #     subnetworkRangeName: cloudrange
+        name: projects/myproject/regions/us-west1/subnetworks/cf-network-management-subnet-us-west1 # {"$ref":"#/definitions/io.k8s.cli.substitutions.subnetworkref"}
   minCpuPlatform: "Intel Skylake"
-  metadataStartupScript: "!/bin/bash\n echo hello > /config/test-script.txt"
+  metadataStartupScript: |-
+    #!/bin/bash
+    echo hello > /config/test-script.txt
   serviceAccount:
     serviceAccountRef:
       name: blueprint-bigip-service-account

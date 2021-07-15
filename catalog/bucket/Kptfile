@@ -8,7 +8,7 @@ openAPI:
       x-k8s-cli:
         setter:
           name: name
-          value: bucket
+          value: marks-bucket
           required: true
       description: Bucket instance name
     io.k8s.cli.setters.storage-class:

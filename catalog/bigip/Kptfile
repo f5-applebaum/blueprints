@@ -4,6 +4,19 @@ metadata:
   name: bigip
 openAPI:
   definitions:
+    io.k8s.cli.setters.project-id:
+      x-k8s-cli:
+        setter:
+          name: project-id
+          value: $DEFAULT_PROJECT
+          required: true
+      description: Project ID for instance
+    io.k8s.cli.setters.region:
+      x-k8s-cli:
+        setter:
+          name: region
+          value: us-west1
+      description: instance region
     io.k8s.cli.setters.name:
       x-k8s-cli:
         setter:
@@ -11,16 +24,24 @@ openAPI:
           value: mybigip
           required: true
       description: instance name
-    io.k8s.cli.substitutions.networkref:
+    io.k8s.cli.setters.namespace:
       x-k8s-cli:
-        substitution:
-          name: networkref
-          pattern: projects/${PROJECT_ID}/global/networks/${NETWORK}
-          values:
-          - marker: ${PROJECT_ID}
-            ref: '#/definitions/io.k8s.cli.setters.project-id'
-          - marker: ${NETWORK}
-            ref: '#/definitions/io.k8s.cli.setters.network'
+        setter:
+          name: namespace
+          value: config-control
+      description: Namespace name for pipeline resources
+    io.k8s.cli.setters.storage-class:
+      x-k8s-cli:
+        setter:
+          name: storage-class
+          value: standard
+      description: Bucket storage class
+    io.k8s.cli.setters.subnetwork:
+      x-k8s-cli:
+        setter:
+          name: subnetwork
+          value: cf-network-management-subnet-us-west1
+      description: instance subnetwork
     io.k8s.cli.substitutions.bigip-name:
       x-k8s-cli:
         substitution:
@@ -31,34 +52,15 @@ openAPI:
             ref: '#/definitions/io.k8s.cli.setters.project-id'
           - marker: ${NAME}
             ref: '#/definitions/io.k8s.cli.setters.name'
-    io.k8s.cli.setters.storage-class:
+    io.k8s.cli.substitutions.subnetworkref:
       x-k8s-cli:
-        setter:
-          name: storage-class
-          value: standard
-      description: Bucket storage class
-    io.k8s.cli.setters.network:
-      x-k8s-cli:
-        setter:
-          name: network
-          value: default
-      description: instance network
-    io.k8s.cli.setters.region:
-      x-k8s-cli:
-        setter:
-          name: region
-          value: us-central1
-      description: instance region
-    io.k8s.cli.setters.project-id:
-      x-k8s-cli:
-        setter:
-          name: project-id
-          value: $DEFAULT_PROJECT
-          required: true
-      description: Project ID for instance
-    io.k8s.cli.setters.namespace:
-      x-k8s-cli:
-        setter:
-          name: namespace
-          value: config-control
-      description: Namespace name for pipeline resources
+        substitution:
+          name: subnetworkref
+          pattern: projects/${PROJECT_ID}/regions/${REGION}/subnetworks/${SUBNETWORK}
+          values:
+          - marker: ${PROJECT_ID}
+            ref: '#/definitions/io.k8s.cli.setters.project-id'
+          - marker: ${REGION}
+            ref: '#/definitions/io.k8s.cli.setters.region'
+          - marker: ${SUBNETWORK}
+            ref: '#/definitions/io.k8s.cli.setters.subnetwork'
