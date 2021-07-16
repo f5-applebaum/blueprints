@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: setters
+  namespace: config-control
+  annotations:
+    config.kubernetes.io/local-config: "true"
+data:
+  namespace: config-control
+  project-id: $DEFAULT_PROJECT
+  region: us-west1
+  storage-class: standard
+  network: cf-network-1
+  subnetwork: cf-network-management-subnet-us-west1
