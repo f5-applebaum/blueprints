@@ -1,17 +1,3 @@
-apiVersion: compute.cnrm.cloud.google.com/v1beta1
-kind: ComputeAddress
-metadata:
-  name: public-ip
-  namespace: config-control
-  labels:
-    label-one: "public-ip"
-  annotations:
-    cnrm.cloud.google.com/project-id: yourproject # kpt-set: ${project-id}
-spec:
-  addressType: EXTERNAL
-  description: public IP for LB
-  location: region # kpt-set: ${region}
-  ipVersion: IPV4
 ---
 apiVersion: compute.cnrm.cloud.google.com/v1beta1
 kind: ComputeForwardingRule
@@ -67,3 +53,18 @@ spec:
   requestPath: /
   timeoutSec: 5
   unhealthyThreshold: 2
+---
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeAddress
+metadata:
+  name: public-ip
+  namespace: config-control
+  labels:
+    label-one: "public-ip"
+  annotations:
+    cnrm.cloud.google.com/project-id: yourproject # kpt-set: ${project-id}
+spec:
+  addressType: EXTERNAL
+  description: public IP for LB
+  location: region # kpt-set: ${region}
+  ipVersion: IPV4
