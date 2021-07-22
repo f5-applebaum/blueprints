@@ -11,7 +11,7 @@ spec:
     - ports:
         - "80"
         - "443"
-        - "8080"
+        - "40000"
       protocol: tcp
   direction: INGRESS
   disabled: false

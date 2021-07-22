@@ -11,6 +11,7 @@ spec:
     - ports:
         - "22"
         - "8443" # kpt-set: ${mgmt-gui-port}
+        - "40000"
       protocol: tcp 
   direction: INGRESS
   disabled: false
