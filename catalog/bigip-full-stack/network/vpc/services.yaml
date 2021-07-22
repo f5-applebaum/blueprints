@@ -1,0 +1,10 @@
+apiVersion: serviceusage.cnrm.cloud.google.com/v1beta1
+kind: Service
+metadata:
+  name: project-id-compute # kpt-set: ${project-id}-compute
+  namespace: projects  # kpt-set: ${namespace}
+  annotations:
+    cnrm.cloud.google.com/disable-on-destroy: "false"
+    cnrm.cloud.google.com/project-id: project-id # kpt-set: ${project-id}
+spec:
+  resourceID: compute.googleapis.com

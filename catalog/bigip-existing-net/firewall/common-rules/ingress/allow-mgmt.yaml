@@ -1,0 +1,24 @@
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeFirewall
+metadata:
+  name: network-1-fw-allow-mgmt # kpt-set: ${network-name}-fw-allow-mgmt
+  namespace: firewalls-namespace # kpt-set: ${firewalls-namespace}
+  annotations:
+    cnrm.cloud.google.com/project-id: yourproject # kpt-set: ${project-id}
+spec:
+  priority: 10000 # kpt-set: ${priority}
+  allow:
+    - ports:
+        - "22"
+        - "8443"
+      protocol: tcp
+  direction: INGRESS
+  disabled: false
+  enableLogging: false # kpt-set: ${enable-logging}
+  networkRef:
+    external: projects/your-project/global/networks/your-network # kpt-set: projects/${project-id}/global/networks/${network}
+    #name: network-1 # kpt-set: ${network-name}
+  sourceRanges: # kpt-set: ${restricted-src-ranges}
+    - "97.126.124.134/32"
+  targetTags:
+    - allow-mgmt

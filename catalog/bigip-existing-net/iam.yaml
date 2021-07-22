@@ -1,0 +1,63 @@
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: bigip-srv-acct
+  namespace: config-control
+  annotations:
+    cnrm.cloud.google.com/project-id: yourproject # kpt-set: ${project-id}
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMCustomRole
+metadata:
+  # ID can only include letters, numbers, periods and underscores.
+  # metadata.name: Invalid value: \"bigipCustomRole\": a DNS-1123 subdomain must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character (e.g. 'example.com', regex used for validation is '[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*')","eventType":"resourceFailed","group":"iam.cnrm.cloud.google.com","kind":"IAMCustomRole","name":"bigipCustomRole","namespace":"config-control","timestamp":"2021-07-19T19:31:17Z","type":"apply"}
+  name: bigipcustomrole
+  namespace: config-control
+  annotations:
+    cnrm.cloud.google.com/project-id: yourproject # kpt-set: ${project-id}
+spec:
+  title: Example BIGIP Custom Role
+  description: Example BIG-IP Custom Role 
+  permissions:
+    - secretmanager.versions.access
+    - compute.forwardingRules.get
+    - compute.forwardingRules.list
+    - compute.forwardingRules.setTarget
+    - compute.instances.create
+    - compute.instances.get
+    - compute.instances.list
+    - compute.instances.updateNetworkInterface
+    - compute.networks.updatePolicy
+    - compute.routes.create
+    - compute.routes.delete
+    - compute.routes.get
+    - compute.routes.list
+    - compute.targetInstances.get
+    - compute.targetInstances.list
+    - compute.targetInstances.use
+    - storage.buckets.create
+    - storage.buckets.delete
+    - storage.buckets.get
+    - storage.buckets.list
+    - storage.buckets.update
+    - storage.objects.create
+    - storage.objects.delete
+    - storage.objects.get
+    - storage.objects.list
+    - storage.objects.update
+  stage: GA
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: iampolicymember-bigip
+  namespace: config-control
+  annotations:
+    cnrm.cloud.google.com/project-id: yourproject # kpt-set: ${project-id}
+spec:
+  member: serviceAccount:bigip-srv-acct@$yourproject.iam.gserviceaccount.com # kpt-set: serviceAccount:bigip-srv-acct@${project-id}.iam.gserviceaccount.com
+  role: projects/yourproject/roles/bigipcustomrole # kpt-set: projects/${project-id}/roles/bigipcustomrole
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: projects/yourproject # kpt-set: projects/${project-id}

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: setters
+data:
+  namespace: config-control
+  project-id: $DEFAULT_PROJECT
+  region: us-west1
+  network-name: network-1
+  subnetwork-name: network-1-subnet-1
+  srv-acct: bigip-srv-acct

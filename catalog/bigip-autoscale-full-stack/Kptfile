@@ -10,5 +10,5 @@ pipeline:
       configPath: setters.yaml
 # inventory:
 #   namespace: config-control
-#   name: bigip-demo-3
-#   inventoryID: bigip-demo-3
+#   name: bigip-autoscale-full-stack
+#   inventoryID: bigip-autoscale-full-stack

@@ -1,0 +1,28 @@
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeFirewall
+metadata:
+  name: network-1-fw-allow-internal-common # kpt-set: ${network-name}-fw-allow-internal-common
+  namespace: firewalls-namespace # kpt-set: ${namespace}
+  annotations:
+    cnrm.cloud.google.com/project-id: yourproject # kpt-set: ${project-id}
+spec:
+  priority: 10000 # kpt-set: ${priority}
+  allow:
+    - ports:
+        - "22"
+        - "443"
+        - "8080"
+      protocol: tcp
+    - protocol: icmp
+  direction: INGRESS
+  disabled: false
+  enableLogging: false # kpt-set: ${enable-logging}
+  networkRef:
+    external: projects/your-project/global/networks/your-network # kpt-set: projects/${project-id}/global/networks/${network-name}
+    #name: network-1 # kpt-set: ${network-name}
+  sourceRanges:
+    - "10.0.0.0/8"
+    - "172.16.0.0/12"
+    - "192.168.0.0/16"
+  targetTags:
+    - allow-internal-common

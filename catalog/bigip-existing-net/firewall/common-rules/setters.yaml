@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: setters
+data:
+  project-id: firewall-project-id
+  namespace: firewalls-namespace
+  network-name: network-1
+  priority: "10000"
+  allow-default-egress: "true"
+  dont-allow-google-apis: "true"
+  enable-logging: "false"
+  google-api-cidr: |
+    - 199.36.153.8/30
+  restricted-src-ranges-mgmt: |
+    - 97.126.124.134/32

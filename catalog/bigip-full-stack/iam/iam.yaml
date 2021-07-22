@@ -1,0 +1,61 @@
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: srv-acct # kpt-set: ${srv-acct}
+  namespace: config-control # kpt-set: ${namespace}
+  annotations:
+    cnrm.cloud.google.com/project-id: yourproject # kpt-set: ${project-id}
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMCustomRole
+metadata:
+  name: customrolename # kpt-set: ${custom-role-name}
+  namespace: config-control # kpt-set: ${namespace}
+  annotations:
+    cnrm.cloud.google.com/project-id: yourproject # kpt-set: ${project-id}
+spec:
+  title: Example BIGIP Custom Role
+  description: Example BIG-IP Custom Role 
+  permissions:
+    - secretmanager.versions.access
+    - compute.forwardingRules.get
+    - compute.forwardingRules.list
+    - compute.forwardingRules.setTarget
+    - compute.instances.create
+    - compute.instances.get
+    - compute.instances.list
+    - compute.instances.updateNetworkInterface
+    - compute.networks.updatePolicy
+    - compute.routes.create
+    - compute.routes.delete
+    - compute.routes.get
+    - compute.routes.list
+    - compute.targetInstances.get
+    - compute.targetInstances.list
+    - compute.targetInstances.use
+    - storage.buckets.create
+    - storage.buckets.delete
+    - storage.buckets.get
+    - storage.buckets.list
+    - storage.buckets.update
+    - storage.objects.create
+    - storage.objects.delete
+    - storage.objects.get
+    - storage.objects.list
+    - storage.objects.update
+  stage: GA
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: iampolicymember-customrole
+  namespace: config-control # kpt-set: ${namespace}
+  annotations:
+    cnrm.cloud.google.com/project-id: yourproject # kpt-set: ${project-id}
+spec:
+  member: serviceAccount:srv-acct@yourproject.iam.gserviceaccount.com # kpt-set: serviceAccount:${srv-acct}@${project-id}.iam.gserviceaccount.com
+  role: customrolename # kpt-set: projects/${project-id}/roles/${custom-role-name}
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: projects/yourproject # kpt-set: projects/${project-id}

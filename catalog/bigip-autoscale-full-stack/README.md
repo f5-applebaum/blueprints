@@ -1,7 +1,7 @@
 # bigip
 
 ## Description
-sample description
+Simple BIG-IP 1-NIC Instance in New Network
 
 ## Usage
 

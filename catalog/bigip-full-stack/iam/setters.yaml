@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: setters
+data:
+  namespace: iam-namespace
+  project-id: $DEFAULT_PROJECT
+  srv-acct: bigip-srv-acct
+  # ID can only include letters, numbers, periods and underscores.
+  # metadata.name: Invalid value: \"bigipCustomRole\": a DNS-1123 subdomain must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character (e.g. 'example.com', regex used for validation is '[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*')","eventType":"resourceFailed","group":"iam.cnrm.cloud.google.com","kind":"IAMCustomRole","name":"bigipCustomRole","namespace":"config-control","timestamp":"2021-07-19T19:31:17Z","type":"apply"}
+  # googleapi: Error 400: Cannot add new grants to deleted role 
+  custom-role-name: bigipcustomrole
